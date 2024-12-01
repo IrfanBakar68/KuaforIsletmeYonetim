@@ -3,6 +3,7 @@ using System;
 using KuaforIsletmeYonetim.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KuaforIsletmeYonetim.Migrations
 {
     [DbContext(typeof(KuaforContext))]
-    partial class KuaforContextModelSnapshot : ModelSnapshot
+    [Migration("20241201134614_FixCalisanAndSalonRelation")]
+    partial class FixCalisanAndSalonRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,12 +85,17 @@ namespace KuaforIsletmeYonetim.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("RandevuId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Ucret")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CalisanId");
+
+                    b.HasIndex("RandevuId");
 
                     b.ToTable("Randevular");
                 });
@@ -168,7 +175,16 @@ namespace KuaforIsletmeYonetim.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("KuaforIsletmeYonetim.Models.Randevu", null)
+                        .WithMany("Randevular")
+                        .HasForeignKey("RandevuId");
+
                     b.Navigation("Calisan");
+                });
+
+            modelBuilder.Entity("KuaforIsletmeYonetim.Models.Randevu", b =>
+                {
+                    b.Navigation("Randevular");
                 });
 
             modelBuilder.Entity("KuaforIsletmeYonetim.Models.Salon", b =>

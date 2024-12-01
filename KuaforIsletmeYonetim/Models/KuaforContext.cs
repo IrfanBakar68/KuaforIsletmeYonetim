@@ -14,10 +14,29 @@ namespace KuaforIsletmeYonetim.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Randevu ve Çalışan ilişkisi
             modelBuilder.Entity<Randevu>()
                 .HasOne(r => r.Calisan)
                 .WithMany()
-                .HasForeignKey(r => r.CalisanId);
+                .HasForeignKey(r => r.CalisanId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Salon ve Çalışan ilişkisi
+            modelBuilder.Entity<Calisan>()
+                .HasOne(c => c.Salon)
+                .WithMany(s => s.Calisanlar)
+                .HasForeignKey(c => c.SalonId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Varsayılan veriler
+            modelBuilder.Entity<Salon>().HasData(
+                new Salon { Id = 1, Ad = "Kuaför A", Adres = "Adres A", Telefon = "0123456789" }
+            );
+
+            modelBuilder.Entity<Calisan>().HasData(
+                new Calisan { Id = 1, Ad = "Ahmet Yılmaz", SalonId = 1 },
+                new Calisan { Id = 2, Ad = "Ayşe Demir", SalonId = 1 }
+            );
         }
     }
 }

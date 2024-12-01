@@ -3,6 +3,7 @@ using System;
 using KuaforIsletmeYonetim.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KuaforIsletmeYonetim.Migrations
 {
     [DbContext(typeof(KuaforContext))]
-    partial class KuaforContextModelSnapshot : ModelSnapshot
+    [Migration("20241201014344_UpdateRandevuTable")]
+    partial class UpdateRandevuTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,31 +33,17 @@ namespace KuaforIsletmeYonetim.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ad")
-                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("SalonId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Soyad")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UzmanlikAlani")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SalonId");
-
                     b.ToTable("Calisanlar");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Ad = "Ahmet Yılmaz",
-                            SalonId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Ad = "Ayşe Demir",
-                            SalonId = 1
-                        });
                 });
 
             modelBuilder.Entity("KuaforIsletmeYonetim.Models.Randevu", b =>
@@ -83,12 +71,17 @@ namespace KuaforIsletmeYonetim.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("RandevuId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("Ucret")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CalisanId");
+
+                    b.HasIndex("RandevuId");
 
                     b.ToTable("Randevular");
                 });
@@ -116,15 +109,6 @@ namespace KuaforIsletmeYonetim.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Salonlar");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Ad = "Kuaför A",
-                            Adres = "Adres A",
-                            Telefon = "0123456789"
-                        });
                 });
 
             modelBuilder.Entity("KuaforYonetim.Models.Islem", b =>
@@ -149,31 +133,24 @@ namespace KuaforIsletmeYonetim.Migrations
                     b.ToTable("Islemler");
                 });
 
-            modelBuilder.Entity("KuaforIsletmeYonetim.Models.Calisan", b =>
-                {
-                    b.HasOne("KuaforIsletmeYonetim.Models.Salon", "Salon")
-                        .WithMany("Calisanlar")
-                        .HasForeignKey("SalonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Salon");
-                });
-
             modelBuilder.Entity("KuaforIsletmeYonetim.Models.Randevu", b =>
                 {
                     b.HasOne("KuaforIsletmeYonetim.Models.Calisan", "Calisan")
                         .WithMany()
                         .HasForeignKey("CalisanId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("KuaforIsletmeYonetim.Models.Randevu", null)
+                        .WithMany("Randevular")
+                        .HasForeignKey("RandevuId");
 
                     b.Navigation("Calisan");
                 });
 
-            modelBuilder.Entity("KuaforIsletmeYonetim.Models.Salon", b =>
+            modelBuilder.Entity("KuaforIsletmeYonetim.Models.Randevu", b =>
                 {
-                    b.Navigation("Calisanlar");
+                    b.Navigation("Randevular");
                 });
 #pragma warning restore 612, 618
         }

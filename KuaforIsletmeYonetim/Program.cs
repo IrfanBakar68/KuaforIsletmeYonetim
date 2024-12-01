@@ -13,8 +13,22 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 // Middleware yapýlandýrmasý
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage(); // Hata sayfasý geliþtirme ortamýnda görünür
+}
+
+app.UseHttpsRedirection(); // HTTP'den HTTPS'ye yönlendirme
 app.UseStaticFiles();
+
 app.UseRouting();
+
+app.UseAuthorization(); // Yetkilendirme eklenmesi (opsiyonel)
 
 app.UseEndpoints(endpoints =>
 {
