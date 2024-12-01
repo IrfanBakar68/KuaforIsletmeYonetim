@@ -1,0 +1,21 @@
+﻿@model KuaforIsletmeYonetim.Models.Randevu
+
+<h1>Yeni Randevu</h1>
+<form method="post">
+    <label>Müşteri Adı:</label>
+    <input type="text" name="MusteriAdi" />
+    <br />
+    <label>Başlangıç Saati:</label>
+    <input type="datetime-local" name="BaslangicSaati" />
+    <br />
+    <label>Bitiş Saati:</label>
+    <input type="datetime-local" name="BitisSaati" />
+    <br />
+    <label>İşlem:</label>
+    <input type="text" name="Islem" />
+    <br />
+    <label>Ücret:</label>
+    <input type="number" name="Ucret" />
+    <br />
+    <button type="submit">Kaydet</button>
+</form>

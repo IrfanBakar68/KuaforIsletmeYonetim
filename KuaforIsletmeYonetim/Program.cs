@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using KuaforIsletmeYonetim.Models;
-using KuaforYonetim.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<KuaforContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Controller hizmetlerini ekleyin
+// Controller ve View hizmetlerini ekleyin
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -21,7 +20,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=SalonView}/{action=Index}/{id?}"); // Varsayýlan rota
+        pattern: "{controller=Home}/{action=Index}/{id?}");
 });
 
 app.Run();

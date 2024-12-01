@@ -1,8 +1,7 @@
-﻿using KuaforIsletmeYonetim.Models;
+﻿using KuaforYonetim.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
-namespace KuaforYonetim.Models
+namespace KuaforIsletmeYonetim.Models
 {
     public class KuaforContext : DbContext
     {
@@ -11,5 +10,14 @@ namespace KuaforYonetim.Models
         public DbSet<Salon>? Salonlar { get; set; }
         public DbSet<Islem>? Islemler { get; set; }
         public DbSet<Calisan>? Calisanlar { get; set; }
+        public DbSet<Randevu>? Randevular { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Randevu>()
+                .HasOne(r => r.Calisan)
+                .WithMany()
+                .HasForeignKey(r => r.CalisanId);
+        }
     }
 }

@@ -3,7 +3,7 @@
 namespace KuaforIsletmeYonetim.Controllers
 {
     public class SalonViewController : Controller
-    
+    {
         public IActionResult Index()
         {
             return View(); // Views/SalonView/Index.cshtml'e yönlendirir

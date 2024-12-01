@@ -1,0 +1,37 @@
+﻿@model IEnumerable<KuaforIsletmeYonetim.Models.Randevu>
+
+<h1>Randevu Listesi</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Çalışan Adı</th>
+            <th>Başlangıç Saati</th>
+            <th>Bitiş Saati</th>
+            <th>Müşteri</th>
+            <th>İşlem</th>
+            <th>Ücret</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var randevu in Model)
+            {
+                <tr>
+                    <td>@randevu.Calisan?.Ad</td>
+                    <td>@randevu.BaslangicSaati</td>
+                    <td>@randevu.BitisSaati</td>
+                    <td>@randevu.MusteriAdi</td>
+                    <td>@randevu.Islem</td>
+                    <td>@randevu.Ucret</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6">Henüz randevu eklenmedi.</td>
+            </tr>
+        }
+    </tbody>
+</table>
